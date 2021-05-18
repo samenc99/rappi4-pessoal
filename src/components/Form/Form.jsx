@@ -1,7 +1,8 @@
 import {MyForm, MyInput} from "./styled";
 import { StylesProvider } from '@material-ui/core/styles';
 
-export default function Form({form,setForm,initialForm, label, type, placeholder, error, button}) {
+export default function Form({form,setForm,initialForm, label,
+                               type, placeholder, error, button,required}) {
 
   const renderInputs = ()=>{
     const r = []
@@ -17,6 +18,7 @@ export default function Form({form,setForm,initialForm, label, type, placeholder
           type={type[obj]}
           placeholder={placeholder[obj]}
           error={error[obj]}
+          required={required[obj]}
         />
       )
     }
@@ -24,10 +26,10 @@ export default function Form({form,setForm,initialForm, label, type, placeholder
   }
 
   return(
-    <MyForm>
+    <MyForm onSubmit={button.onClick}>
       <StylesProvider injectFirst>
         {renderInputs()}
-        <button onClick={button.onClick}>{button.text}</button>
+        <button>{button.text}</button>
       </StylesProvider>
     </MyForm>
   )
