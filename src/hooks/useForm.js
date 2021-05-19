@@ -8,6 +8,9 @@ export default function useForm(initialForm) {
       const { name, value } = e.target;
       setForm({ ...form, [name]: value });
     }
+    else if(typeof e==='object'){
+      setForm(e)
+    }
     else{
       setForm(initialForm)
     }

@@ -110,7 +110,7 @@ export default function SignIn(){
                 onChange={setForm}
                 type={showPass? 'text' : 'password'}
                 placeholder={'Mínimo 6 caracteres'}
-                min={6}
+                minLength={'6'}
                 error={error.password}
                 required
               />
