@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import {AllContent} from "../../styleAll/styledAll";
 import TextField from '@material-ui/core/TextField';
 import { Alert } from '@material-ui/lab';
+import IconButton from '@material-ui/core/IconButton';
 
 export const MyAllContent = styled(AllContent)`
   justify-content: center;
@@ -84,3 +85,11 @@ export const Senha = styled.img`
   cursor: pointer;
 `
 
+export const MyIconButton = styled(IconButton)`
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 3px;
+  right: 0px;
+  cursor: pointer;
+`

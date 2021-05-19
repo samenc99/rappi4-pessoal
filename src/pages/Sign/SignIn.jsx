@@ -4,12 +4,24 @@ import All from '../../styleAll/styledAll'
 import {api} from "../../api/api";
 import useCoordinator from "../../hooks/useCoordinator";
 import useValidation from "../../hooks/useValidation";
-import {Button, DivInput, Logo, MyAlert, MyAllContent, MyForm, MyInput, Senha, Text, TextClick} from "./styled";
+import {
+  Button,
+  DivInput,
+  Logo,
+  MyAlert,
+  MyAllContent,
+  MyForm,
+  MyIconButton,
+  MyInput,
+  Text,
+  TextClick
+} from "./styled";
 import logoRappi from '../../assets/logo-rappi.svg'
 import {validateEmail} from "./validateEmail";
 import {StylesProvider} from "@material-ui/core/styles";
-import logoSenha from '../../assets/senha.svg'
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { AlertTitle } from '@material-ui/lab';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 //para o formulário
 const initialForm = {email:'', password:''}
@@ -21,8 +33,8 @@ export default function SignIn(){
 
   const [error, setError] = useState({email:false, password:false})
   const [form, setForm] = useForm(initialForm)
-  const [showPass, setShowPass] = useState('password')
-  const [alert, setAlert] = useState();
+  const [showPass, setShowPass] = useState(false)
+  const [alert, setAlert] = useState(<></>);
 
   //comunicação com api
   const signin = async()=>{
@@ -50,10 +62,6 @@ export default function SignIn(){
   }
 
   //interação com usuário
-  const onClickShow = ()=>{
-    if(showPass==='password')setShowPass('text')
-    else setShowPass('password')
-  }
 
   const onClick=(e)=>{
     e.preventDefault()
@@ -61,7 +69,12 @@ export default function SignIn(){
       signin()
     }
     else{
-
+      setAlert(
+        <MyAlert severity={'error'}>
+          <AlertTitle><strong>Erro</strong></AlertTitle>
+          E-mail inválido
+        </MyAlert>
+      )
     }
   }
 
@@ -95,13 +108,20 @@ export default function SignIn(){
                 label={'Senha'}
                 value={form.password}
                 onChange={setForm}
-                type={showPass}
+                type={showPass? 'text' : 'password'}
                 placeholder={'Mínimo 6 caracteres'}
                 min={6}
                 error={error.password}
                 required
               />
-              <Senha src={logoSenha} onClick={onClickShow}/>
+              {/*<Senha src={logoSenha} onClick={()=>setShowPass(!showPass)}/>*/}
+              <MyIconButton>
+                {showPass? (
+                  <VisibilityIcon onClick={()=>setShowPass(!showPass)}/>
+                ):(
+                  <VisibilityOffIcon onClick={()=>setShowPass(!showPass)}/>
+                )}
+              </MyIconButton>
             </DivInput>
           </StylesProvider>
           <Button>Entrar</Button>
