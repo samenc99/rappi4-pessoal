@@ -10,9 +10,16 @@ const All = styled.div`
 
 export default All
 
-export const AllContent = styled.div`
+export const Smartphone = styled.div`
   width: min(415px, 100%);
   height: min(800px, 100%);
+  display: flex;
+  flex-direction: column;
+`
+
+export const AllContent = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

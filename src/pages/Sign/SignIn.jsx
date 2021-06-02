@@ -1,6 +1,6 @@
 import {useState} from 'react'
 import useForm from "../../hooks/useForm";
-import All from '../../styleAll/styledAll'
+import All, {Smartphone} from '../../styleAll/styledAll'
 import {api} from "../../api/api";
 import useCoordinator from "../../hooks/useCoordinator";
 import useValidation from "../../hooks/useValidation";
@@ -80,54 +80,56 @@ export default function SignIn(){
 
   return(
     <All>
-      <MyAllContent>
-        <Logo>
-          <img src={logoRappi}/>
-        </Logo>
-        <Text>Entrar</Text>
-        {alert}
-        <MyForm onSubmit={onClick}>
-          <StylesProvider injectFirst>
-            <MyInput
-              key={'email'}
-              variant={'outlined'}
-              name={'email'}
-              label={'E-mail'}
-              value={form.email}
-              onChange={setForm}
-              type={'email'}
-              placeholder={'email@email.com'}
-              error={error.email}
-              required
-            />
-            <DivInput>
+      <Smartphone>
+        <MyAllContent>
+          <Logo>
+            <img src={logoRappi}/>
+          </Logo>
+          <Text>Entrar</Text>
+          {alert}
+          <MyForm onSubmit={onClick}>
+            <StylesProvider injectFirst>
               <MyInput
-                key={'password'}
+                key={'email'}
                 variant={'outlined'}
-                name={'password'}
-                label={'Senha'}
-                value={form.password}
+                name={'email'}
+                label={'E-mail'}
+                value={form.email}
                 onChange={setForm}
-                type={showPass? 'text' : 'password'}
-                placeholder={'Mínimo 6 caracteres'}
-                minLength={'6'}
-                error={error.password}
+                type={'email'}
+                placeholder={'email@email.com'}
+                error={error.email}
                 required
               />
-              {/*<Senha src={logoSenha} onClick={()=>setShowPass(!showPass)}/>*/}
-              <MyIconButton>
-                {showPass? (
-                  <VisibilityIcon onClick={()=>setShowPass(!showPass)}/>
-                ):(
-                  <VisibilityOffIcon onClick={()=>setShowPass(!showPass)}/>
-                )}
-              </MyIconButton>
-            </DivInput>
-          </StylesProvider>
-          <Button>Entrar</Button>
-        </MyForm>
-        <TextClick onClick={toSignUp}>Não possui cadastro? Clique aqui</TextClick>
-      </MyAllContent>
+              <DivInput>
+                <MyInput
+                  key={'password'}
+                  variant={'outlined'}
+                  name={'password'}
+                  label={'Senha'}
+                  value={form.password}
+                  onChange={setForm}
+                  type={showPass? 'text' : 'password'}
+                  placeholder={'Mínimo 6 caracteres'}
+                  minLength={'6'}
+                  error={error.password}
+                  required
+                />
+                {/*<Senha src={logoSenha} onClick={()=>setShowPass(!showPass)}/>*/}
+                <MyIconButton>
+                  {showPass? (
+                    <VisibilityIcon onClick={()=>setShowPass(!showPass)}/>
+                  ):(
+                    <VisibilityOffIcon onClick={()=>setShowPass(!showPass)}/>
+                  )}
+                </MyIconButton>
+              </DivInput>
+            </StylesProvider>
+            <Button>Entrar</Button>
+          </MyForm>
+          <TextClick onClick={toSignUp}>Não possui cadastro? Clique aqui</TextClick>
+        </MyAllContent>
+      </Smartphone>
     </All>
   )
 }

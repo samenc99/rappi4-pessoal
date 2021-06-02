@@ -1,4 +1,4 @@
-import All from "../../styleAll/styledAll";
+import All, {Smartphone} from "../../styleAll/styledAll";
 import {Button, DivInput, Logo, MyAlert, MyAllContent, MyForm, MyIconButton, MyInput, Text} from "./styled";
 import logoRappi from '../../assets/logo-rappi.svg'
 import {useEffect, useRef, useState} from "react";
@@ -89,98 +89,100 @@ export default function SignUp(){
 
   return(
     <All>
-      <MyAllContent>
-        <Logo>
-          <img src={logoRappi} alt={'logo rappi'}/>
-        </Logo>
-        <Text>Entrar</Text>
-        {alert}
-      <MyForm onSubmit={onClick}>
-        <StylesProvider injectFirst>
-          <MyInput
-            key={'name'}
-            variant={'outlined'}
-            name={'name'}
-            label={'Nome'}
-            value={form.name}
-            onChange={setForm}
-            type={'text'}
-            placeholder={'Nome e Sobrenome'}
-            required
-          />
-          <MyInput
-            key={'email'}
-            variant={'outlined'}
-            name={'email'}
-            label={'E-mail'}
-            value={form.email}
-            onChange={setForm}
-            type={'email'}
-            placeholder={'email@email.com'}
-            error={error.email}
-            required
-          />
-          <MyInput
-            key={'cpf'}
-            variant={'outlined'}
-            name={'cpf'}
-            label={'CPF'}
-            value={form.cpf}
-            onChange={onChangeCpf}
-            type={'text'}
-            placeholder={'000.000.000-00'}
-            required
-          />
-          <DivInput>
+      <Smartphone>
+        <MyAllContent>
+          <Logo>
+            <img src={logoRappi} alt={'logo rappi'}/>
+          </Logo>
+          <Text>Entrar</Text>
+          {alert}
+        <MyForm onSubmit={onClick}>
+          <StylesProvider injectFirst>
             <MyInput
-              key={'password'}
+              key={'name'}
               variant={'outlined'}
-              name={'password'}
-              label={'Senha'}
-              value={form.password}
+              name={'name'}
+              label={'Nome'}
+              value={form.name}
               onChange={setForm}
-              type={showPass.pass? 'text' : 'password'}
-              placeholder={'Mínimo 6 caracteres'}
-              minLength={'6'}
-              error={error.password}
+              type={'text'}
+              placeholder={'Nome e Sobrenome'}
               required
             />
-            {/*<Senha src={logoSenha} onClick={()=>setShowPass(!showPass)}/>*/}
-            <MyIconButton>
-              {showPass.pass? (
-                <VisibilityIcon onClick={()=>setShowPass({pass: !showPass.pass, rPass: showPass.rPass})}/>
-              ):(
-                <VisibilityOffIcon onClick={()=>setShowPass({pass: !showPass.pass, rPass: showPass.rPass})}/>
-              )}
-            </MyIconButton>
-          </DivInput>
-          <DivInput>
             <MyInput
-              key={'rPassword'}
+              key={'email'}
               variant={'outlined'}
-              name={'rPassword'}
-              label={'Confirmar'}
-              value={form.rPassword}
+              name={'email'}
+              label={'E-mail'}
+              value={form.email}
               onChange={setForm}
-              type={showPass.rPass? 'text' : 'password'}
-              placeholder={'Confirme a senha anterior'}
-              minLength={'6'}
-              error={error.rPassword}
+              type={'email'}
+              placeholder={'email@email.com'}
+              error={error.email}
               required
             />
-            {/*<Senha src={logoSenha} onClick={()=>setShowPass(!showPass)}/>*/}
-            <MyIconButton>
-              {showPass.rPass? (
-                <VisibilityIcon onClick={()=>setShowPass({pass: showPass.pass, rPass: !showPass.rPass})}/>
-              ):(
-                <VisibilityOffIcon onClick={()=>setShowPass({pass: showPass.pass, rPass: !showPass.rPass})}/>
-              )}
-            </MyIconButton>
-          </DivInput>
-        </StylesProvider>
-        <Button>Criar</Button>
-      </MyForm>
-      </MyAllContent>
+            <MyInput
+              key={'cpf'}
+              variant={'outlined'}
+              name={'cpf'}
+              label={'CPF'}
+              value={form.cpf}
+              onChange={onChangeCpf}
+              type={'text'}
+              placeholder={'000.000.000-00'}
+              required
+            />
+            <DivInput>
+              <MyInput
+                key={'password'}
+                variant={'outlined'}
+                name={'password'}
+                label={'Senha'}
+                value={form.password}
+                onChange={setForm}
+                type={showPass.pass? 'text' : 'password'}
+                placeholder={'Mínimo 6 caracteres'}
+                minLength={'6'}
+                error={error.password}
+                required
+              />
+              {/*<Senha src={logoSenha} onClick={()=>setShowPass(!showPass)}/>*/}
+              <MyIconButton>
+                {showPass.pass? (
+                  <VisibilityIcon onClick={()=>setShowPass({pass: !showPass.pass, rPass: showPass.rPass})}/>
+                ):(
+                  <VisibilityOffIcon onClick={()=>setShowPass({pass: !showPass.pass, rPass: showPass.rPass})}/>
+                )}
+              </MyIconButton>
+            </DivInput>
+            <DivInput>
+              <MyInput
+                key={'rPassword'}
+                variant={'outlined'}
+                name={'rPassword'}
+                label={'Confirmar'}
+                value={form.rPassword}
+                onChange={setForm}
+                type={showPass.rPass? 'text' : 'password'}
+                placeholder={'Confirme a senha anterior'}
+                minLength={'6'}
+                error={error.rPassword}
+                required
+              />
+              {/*<Senha src={logoSenha} onClick={()=>setShowPass(!showPass)}/>*/}
+              <MyIconButton>
+                {showPass.rPass? (
+                  <VisibilityIcon onClick={()=>setShowPass({pass: showPass.pass, rPass: !showPass.rPass})}/>
+                ):(
+                  <VisibilityOffIcon onClick={()=>setShowPass({pass: showPass.pass, rPass: !showPass.rPass})}/>
+                )}
+              </MyIconButton>
+            </DivInput>
+          </StylesProvider>
+          <Button>Criar</Button>
+        </MyForm>
+        </MyAllContent>
+      </Smartphone>
     </All>
   )
 }

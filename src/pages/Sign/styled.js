@@ -39,6 +39,15 @@ export const MyAlert = styled(Alert)`
   width: 100%;
   margin-bottom: 16px;
 `
+
+export const DivBack = styled.div`
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+`
+
 //-------------------------Formulário
 
 export const DivInput = styled.div`
