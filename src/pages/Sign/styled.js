@@ -3,6 +3,7 @@ import {AllContent} from "../../styleAll/styledAll";
 import TextField from '@material-ui/core/TextField';
 import { Alert } from '@material-ui/lab';
 import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 export const MyAllContent = styled(AllContent)`
   justify-content: center;
@@ -46,6 +47,12 @@ export const DivBack = styled.div`
   display: flex;
   align-items: center;
   padding-left: 16px;
+  box-shadow: 0 0.5px 0 0 rgba(0, 0, 0, 0.25);
+  margin-bottom: 16px;
+`
+
+export const MyArrowBack = styled(ArrowBackIosIcon)`
+  
 `
 
 //-------------------------Formulário
