@@ -6,8 +6,9 @@ export default function useCoordinator() {
   const toSignIn = ()=>history.push('/signin')
   const toFeed = ()=>history.push('/')
   const toSignUp = ()=>history.push('/signup')
+  const toAddress = ()=>history.push('/address')
 
   return{
-    toSignIn, toFeed, toSignUp
+    toSignIn, toFeed, toSignUp, toAddress
   }
 }

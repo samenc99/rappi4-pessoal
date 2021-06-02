@@ -9,6 +9,8 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import {validateEmail} from "./validateEmail";
 import {AlertTitle} from "@material-ui/lab";
+import {api} from "../../api/api";
+import useCoordinator from "../../hooks/useCoordinator";
 
 const initialForm = {
   name:'', email:'', cpf:'', password:'', rPassword:''
@@ -19,6 +21,29 @@ export default function SignUp(){
   const [alert, setAlert] = useState(<></>);
   const [form, setForm] = useForm(initialForm)
   const [error, setError] = useState({email:false, password:false, rPassword: false})
+  const {toAddress} = useCoordinator()
+
+  const signup=async()=>{
+    try{
+      const body = {
+        name: form.name,
+        email: form.email,
+        cpf: form.cpf,
+        password: form.password
+      }
+      const res = await api.post('signup', body)
+      window.localStorage.setItem('token', res.data.token)
+      toAddress()
+    }
+    catch (err){
+      setAlert(
+        <MyAlert severity={'error'}>
+          <AlertTitle><strong>Erro</strong></AlertTitle>
+          {err.response.data.message}
+        </MyAlert>
+      )
+    }
+  }
 
   //interação com usuário
   const onChangeCpf = (e)=>{
@@ -57,6 +82,7 @@ export default function SignUp(){
       )
       return
     }
+    signup()
   }
 
 
