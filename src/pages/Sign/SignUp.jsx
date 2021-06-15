@@ -12,9 +12,19 @@ import {AlertTitle} from "@material-ui/lab";
 import useCoordinator from "../../hooks/useCoordinator";
 import {renderForm} from "./renderForm";
 import signupEndpoint from "../../controller/user/signupEndpoint";
+import {MyCircularProgress} from "../components/MyCircularProgress";
+import signinBusinnes from "../../Business/user/signinBusinnes";
+import signupBusinnes from "../../Business/user/signupBusinnes";
+import myNormalize from "../../functions/myNormalize";
 
 const initialForm = {
   name:'', email:'', cpf:'', password:'', rPassword:''
+}
+
+const alertKey = {
+  'senha precisa de pelo menos 6 caracteres' : {email:false, password: true, rPassword: false},
+  'e-mail invalido' : {email:true, password: false, rPassword: false},
+  'senhas nao conferem' : {email:false, password: false, rPassword: true}
 }
 
 export default function SignUp(){
@@ -22,23 +32,8 @@ export default function SignUp(){
   const [alert, setAlert] = useState(<></>);
   const [form, setForm] = useForm(initialForm)
   const [error, setError] = useState({email:false, password:false, rPassword: false})
+  const [loading, setLoading] = useState(<></>);
   const {toAddress} = useCoordinator()
-
-  //api
-  const signup=async()=>{
-    const res = await signupEndpoint(form)
-    if(typeof res==='boolean'){
-      toAddress()
-    }
-    else{
-      setAlert(
-        <MyAlert severity={'error'}>
-          <AlertTitle><strong>Erro</strong></AlertTitle>
-          {res}
-        </MyAlert>
-      )
-    }
-  }
 
   //interação com usuário
   const onChangeCpf = (e)=>{
@@ -46,144 +41,130 @@ export default function SignUp(){
     setForm(newForm)
   }
 
-  const onClick = (e)=>{
+  const sendForm = async(e)=>{
     e.preventDefault()
-    if(!validateEmail(form.email)){
-      setError({email: true,password: false, rPassword: false})
+    setAlert(<></>)
+    setLoading(<MyCircularProgress/>)
+    try{
+      await signupBusinnes(form)
+      toAddress()
+    }catch (err){
+      setLoading(<></>)
+      setError(alertKey[myNormalize(err.message)])
       setAlert(
-        <MyAlert severity={'error'}>
-          <AlertTitle><strong>Erro</strong></AlertTitle>
-          E-mail inválido
+        <MyAlert severity={'error'}>,
+          <AlertTitle>Erro</AlertTitle>
+          {err.message}
         </MyAlert>
-      )
-      return
+        )
     }
-    if(form.password.length<6){
-      setError({email: false,password: true, rPassword: false})
-      setAlert(
-        <MyAlert severity={'error'}>
-          <AlertTitle><strong>Atenção</strong></AlertTitle>
-          Senha precisa ter ao menos 6 caracteres
-        </MyAlert>
-      )
-      return
-    }
-    if(form.password!==form.rPassword){
-      setError({email: false,password: false, rPassword: true})
-      setAlert(
-        <MyAlert severity={'error'}>
-          <AlertTitle><strong>Erro</strong></AlertTitle>
-          Senha de confirmação está diferente
-        </MyAlert>
-      )
-      return
-    }
-    signup()
   }
 
   return(
     <All>
       <Smartphone>
-        <MyAllContent>
-          <Logo>
-            <img src={logoRappi} alt={'logo rappi'}/>
-          </Logo>
-          <Text>Entrar</Text>
-          {alert}
-        <MyForm onSubmit={onClick}>
-          <StylesProvider injectFirst>
-            {
-              renderForm(
-                form, setForm,
-                'name',
-                'Nome',
-                'Nome e Sobrenome'
-              )
-            }
-            {
-              renderForm(
-                form, setForm,
-                'email',
-                'E-mail',
-                'email@email.com',
-                'email',
-                '[a-z][A-Z]@[a-z][A-Z].[a-z][A-Z]',
-                error.email
-              )
-            }
-            <MyInput
-              key={'cpf'}
-              variant={'outlined'}
-              name={'cpf'}
-              label={'CPF'}
-              value={form.cpf}
-              onChange={onChangeCpf}
-              type={'text'}
-              placeholder={'000.000.000-00'}
-              required
-            />
-
-            <DivInput>
-              {
-                renderForm(
-                  form,setForm,
-                  'password',
-                  'Senha',
-                  'Mínimo 6 caracteres',
-                  showPass.pass?'text':'password',
-                  '',
-                  error.password
-                )
-              }
-              <MyIconButton>
+        <StylesProvider injectFirst>
+          <MyAllContent>
+            <Logo>
+              <img src={logoRappi} alt={'logo rappi'}/>
+            </Logo>
+            <Text>Criar</Text>
+            {alert}
+            {loading}
+            <MyForm onSubmit={sendForm}>
                 {
-                  showPass.pass?
-                    (
-                      <VisibilityIcon
-                        onClick={()=>setShowPass({pass: !showPass.pass, rPass: showPass.rPass})}
-                      />
-                    )
-                    :
-                    (
-                      <VisibilityOffIcon
-                        onClick={()=>setShowPass({pass: !showPass.pass, rPass: showPass.rPass})}
-                      />
-                    )
+                  renderForm(
+                    form, setForm,
+                    'name',
+                    'Nome',
+                    'Nome e Sobrenome'
+                  )
                 }
-              </MyIconButton>
-            </DivInput>
-            <DivInput>
-              {
-                renderForm(
-                  form,setForm,
-                  'rPassword',
-                  'Confirmar senha',
-                  'Mínimo 6 caracteres',
-                  showPass.rPass?'text':'password',
-                  '',
-                  error.rPassword
-                )
-              }
-              <MyIconButton>
                 {
-                  showPass.rPass?
-                    (
-                      <VisibilityIcon
-                        onClick={()=>setShowPass({pass: showPass.pass, rPass: !showPass.rPass})}
-                      />
+                  renderForm(
+                    form, setForm,
+                    'email',
+                    'E-mail',
+                    'email@email.com',
+                    'email',
+                    '[a-z][A-Z]@[a-z][A-Z].[a-z][A-Z]',
+                    error.email
+                  )
+                }
+                <MyInput
+                  key={'cpf'}
+                  variant={'outlined'}
+                  name={'cpf'}
+                  label={'CPF'}
+                  value={form.cpf}
+                  onChange={onChangeCpf}
+                  type={'text'}
+                  placeholder={'000.000.000-00'}
+                  required
+                />
+
+                <DivInput>
+                  {
+                    renderForm(
+                      form,setForm,
+                      'password',
+                      'Senha',
+                      'Mínimo 6 caracteres',
+                      showPass.pass?'text':'password',
+                      '',
+                      error.password
                     )
-                    :
-                    (
-                      <VisibilityOffIcon
-                        onClick={()=>setShowPass({pass: showPass.pass, rPass: !showPass.rPass})}
-                      />
-                    )}
-              </MyIconButton>
-            </DivInput>
-          </StylesProvider>
-          <Button>Criar</Button>
-        </MyForm>
-        </MyAllContent>
+                  }
+                  <MyIconButton>
+                    {
+                      showPass.pass?
+                        (
+                          <VisibilityIcon
+                            onClick={()=>setShowPass({pass: !showPass.pass, rPass: showPass.rPass})}
+                          />
+                        )
+                        :
+                        (
+                          <VisibilityOffIcon
+                            onClick={()=>setShowPass({pass: !showPass.pass, rPass: showPass.rPass})}
+                          />
+                        )
+                    }
+                  </MyIconButton>
+                </DivInput>
+                <DivInput>
+                  {
+                    renderForm(
+                      form,setForm,
+                      'rPassword',
+                      'Confirmar senha',
+                      'Mínimo 6 caracteres',
+                      showPass.rPass?'text':'password',
+                      '',
+                      error.rPassword
+                    )
+                  }
+                  <MyIconButton>
+                    {
+                      showPass.rPass?
+                        (
+                          <VisibilityIcon
+                            onClick={()=>setShowPass({pass: showPass.pass, rPass: !showPass.rPass})}
+                          />
+                        )
+                        :
+                        (
+                          <VisibilityOffIcon
+                            onClick={()=>setShowPass({pass: showPass.pass, rPass: !showPass.rPass})}
+                          />
+                        )}
+                  </MyIconButton>
+                </DivInput>
+
+              <Button>Criar</Button>
+            </MyForm>
+          </MyAllContent>
+        </StylesProvider>
       </Smartphone>
     </All>
   )

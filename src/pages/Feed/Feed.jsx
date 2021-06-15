@@ -2,7 +2,7 @@ import Header from '../components/Header/Header'
 import All, {AllContent, Smartphone} from "../../styleAll/styledAll";
 import Search from "./Search/Search";
 import {useEffect, useState} from "react";
-import restaurantEndpoint from "../../controller/restaurantEndpoint";
+import restaurantEndpoint from "../../controller/restaurant/restaurantEndpoint";
 
 export default function Feed(props) {
   const [restaurants, setRestaurants] = useState([])

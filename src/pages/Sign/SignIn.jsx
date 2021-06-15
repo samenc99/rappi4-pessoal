@@ -51,14 +51,17 @@ export default function SignIn(){
     setLoading(<MyCircularProgress/>)
     try{
       await signinBusinnes(form)
+      toFeed()
     }
     catch (err){
       setLoading(<></>)
       setError(alertKey[myNormalize(err.message)])
-      setAlert(<MyAlert severity={'error'}>
-        <AlertTitle>Erro</AlertTitle>
-        {err.message}
-      </MyAlert>)
+      setAlert(
+        <MyAlert severity={'error'}>
+          <AlertTitle>Erro</AlertTitle>
+          {err.message}
+        </MyAlert>
+      )
     }
   }
 

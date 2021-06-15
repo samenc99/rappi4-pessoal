@@ -5,5 +5,5 @@ export default async function signinBusinnes(form){
   if(!validateEmail(form.email)){
     throw new Error('E-mail inválido')
   }
-  const res = await signinEndpoint(form)
+  await signinEndpoint(form)
 }

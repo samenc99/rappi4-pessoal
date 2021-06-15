@@ -2,12 +2,10 @@ import {api} from "../../api/api";
 import {signupURL} from "../endpoints";
 
 export default async function signupEndpoint(form) {
-    const body = {
-      name: form.name,
-      email: form.email,
-      cpf: form.cpf,
-      password: form.password
+    try{
+      const res = await api.post(signupURL, form)
+      window.localStorage.setItem('token', res.data.token)
+    }catch (err){
+      throw new Error(err.response.data.message)
     }
-    const res = await api.post(signupURL, body)
-    window.localStorage.setItem('token', res.data.token)
 }
