@@ -1,7 +1,13 @@
 import All, {AllContent, Smartphone} from "../../styleAll/styledAll";
-import {Button, DivBack, MyAllContent, MyArrowBack, MyForm, MyInput, Text} from "./styled";
+import {Button, DivBack, MyAlert, MyArrowBack, MyForm, Text} from "./styled";
 import {StylesProvider} from "@material-ui/core/styles";
 import useForm from "../../hooks/useForm";
+import useValidation from "../../hooks/useValidation";
+import {renderForm} from "./renderForm";
+import addressEndpoint from "../../controller/user/addressEndpoint";
+import useCoordinator from "../../hooks/useCoordinator";
+import {useState} from "react";
+import {AlertTitle} from "@material-ui/lab";
 
 const initialForm = {
   street:'',
@@ -12,25 +18,32 @@ const initialForm = {
   complement: ''
 }
 
-
-
 export default function Address(){
-
+  useValidation()
+  const {toFeed} = useCoordinator()
   const [form, setForm] = useForm(initialForm)
+  const [alert, setAlert] = useState(<></>);
 
-  const render = (name, label, placeholder=label, type='text')=>{
-    if(placeholder.length===0)placeholder=label
-    return <MyInput
-      key={name}
-      variant={'outlined'}
-      name={name}
-      label={label}
-      value={form[name]}
-      onChange={setForm}
-      type={type}
-      placeholder={placeholder}
-      required
-    />
+  //api
+  const address=async()=>{
+    const res = await addressEndpoint(form)
+    if(typeof res==='boolean'){
+      toFeed()
+    }
+    else{
+      setAlert(
+        <MyAlert severity={'error'}>
+          <AlertTitle><strong>Erro</strong></AlertTitle>
+          {res}
+        </MyAlert>
+      )
+    }
+  }
+
+  //interação com usuário
+  const onClick=(e)=>{
+    e.preventDefault()
+    address()
   }
 
   return(
@@ -43,14 +56,15 @@ export default function Address(){
         </DivBack>
         <AllContent>
           <Text>Meu endereço</Text>
-          <MyForm>
+          {alert}
+          <MyForm onSubmit={onClick}>
             <StylesProvider injectFirst>
-              {render('street', 'Logradouro', 'Rua / Av')}
-              {render('number', 'Número')}
-              {render('complement', 'Complemento', 'Apto / Bloco')}
-              {render('neighbourhood', 'Bairro')}
-              {render('city', 'Cidade')}
-              {render('state', 'Estado')}
+              {renderForm(form, setForm,'street', 'Logradouro', 'Rua / Av')}
+              {renderForm(form, setForm,'number', 'Número','','number', '[0-9]')}
+              {renderForm(form, setForm,'complement', 'Complemento', 'Apto / Bloco')}
+              {renderForm(form, setForm,'neighbourhood', 'Bairro')}
+              {renderForm(form, setForm,'city', 'Cidade')}
+              {renderForm(form, setForm,'state', 'Estado')}
             </StylesProvider>
             <Button>Salvar</Button>
           </MyForm>

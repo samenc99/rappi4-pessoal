@@ -1,7 +1,6 @@
 import {useState} from 'react'
 import useForm from "../../hooks/useForm";
 import All, {Smartphone} from '../../styleAll/styledAll'
-import {api} from "../../api/api";
 import useCoordinator from "../../hooks/useCoordinator";
 import useValidation from "../../hooks/useValidation";
 import {
@@ -12,19 +11,27 @@ import {
   MyAllContent,
   MyForm,
   MyIconButton,
-  MyInput,
   Text,
   TextClick
 } from "./styled";
 import logoRappi from '../../assets/logo-rappi.svg'
-import {validateEmail} from "./validateEmail";
 import {StylesProvider} from "@material-ui/core/styles";
 import { AlertTitle } from '@material-ui/lab';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import {renderForm} from "./renderForm";
+import signinBusinnes from "../../Business/user/signinBusinnes";
+import myNormalize from "../../functions/myNormalize";
+import {MyCircularProgress} from "../components/MyCircularProgress";
 
 //para o formulário
 const initialForm = {email:'', password:''}
+
+const alertKey = {
+  'usuario nao encontrado' : {email:true, password: false},
+  'senha incorreta' : {email:false, password: true},
+  'e-mail invalido' : {email:true, password: false}
+}
 
 export default function SignIn(){
   //validação
@@ -35,100 +42,77 @@ export default function SignIn(){
   const [form, setForm] = useForm(initialForm)
   const [showPass, setShowPass] = useState(false)
   const [alert, setAlert] = useState(<></>);
+  const [loading, setLoading] = useState(<></>);
 
-  //comunicação com api
-  const signin = async()=>{
+  //interação com usuário - sendForm
+  const sendForm=async(e)=>{
+    e.preventDefault()
+    setAlert(<></>)
+    setLoading(<MyCircularProgress/>)
     try{
-      const res = await api.post('login', form)
-      localStorage.setItem('token', res.data.token)
-      toFeed()
+      await signinBusinnes(form)
     }
     catch (err){
-      setAlert(
-        <MyAlert severity={'error'}>
-          <AlertTitle><strong>Erro</strong></AlertTitle>
-          {err.response.data.message}
-        </MyAlert>
-      )
-      if(err.response.data.message==='Usuário não encontrado'){
-        const newError = {email:true, password: false}
-        setError(newError)
-      }
-      else if (err.response.data.message==='Senha incorreta'){
-        const newError = {email:false, password: true}
-        setError(newError)
-      }
-    }
-  }
-
-  //interação com usuário
-
-  const onClick=(e)=>{
-    e.preventDefault()
-    if(validateEmail(form.email)){
-      signin()
-    }
-    else{
-      setAlert(
-        <MyAlert severity={'error'}>
-          <AlertTitle><strong>Erro</strong></AlertTitle>
-          E-mail inválido
-        </MyAlert>
-      )
+      setLoading(<></>)
+      setError(alertKey[myNormalize(err.message)])
+      setAlert(<MyAlert severity={'error'}>
+        <AlertTitle>Erro</AlertTitle>
+        {err.message}
+      </MyAlert>)
     }
   }
 
   return(
     <All>
       <Smartphone>
-        <MyAllContent>
-          <Logo>
-            <img src={logoRappi}/>
-          </Logo>
-          <Text>Entrar</Text>
-          {alert}
-          <MyForm onSubmit={onClick}>
-            <StylesProvider injectFirst>
-              <MyInput
-                key={'email'}
-                variant={'outlined'}
-                name={'email'}
-                label={'E-mail'}
-                value={form.email}
-                onChange={setForm}
-                type={'email'}
-                placeholder={'email@email.com'}
-                error={error.email}
-                required
-              />
-              <DivInput>
-                <MyInput
-                  key={'password'}
-                  variant={'outlined'}
-                  name={'password'}
-                  label={'Senha'}
-                  value={form.password}
-                  onChange={setForm}
-                  type={showPass? 'text' : 'password'}
-                  placeholder={'Mínimo 6 caracteres'}
-                  minLength={'6'}
-                  error={error.password}
-                  required
-                />
-                {/*<Senha src={logoSenha} onClick={()=>setShowPass(!showPass)}/>*/}
-                <MyIconButton>
-                  {showPass? (
-                    <VisibilityIcon onClick={()=>setShowPass(!showPass)}/>
-                  ):(
-                    <VisibilityOffIcon onClick={()=>setShowPass(!showPass)}/>
-                  )}
-                </MyIconButton>
-              </DivInput>
-            </StylesProvider>
-            <Button>Entrar</Button>
-          </MyForm>
-          <TextClick onClick={toSignUp}>Não possui cadastro? Clique aqui</TextClick>
-        </MyAllContent>
+        <StylesProvider injectFirst>
+          <MyAllContent>
+            <Logo>
+              <img src={logoRappi}/>
+            </Logo>
+            <Text>Entrar</Text>
+              {alert}
+              {loading}
+            <MyForm onSubmit={sendForm}>
+
+                {
+                  renderForm(
+                    form,
+                    setForm,
+                    'email',
+                    'E-mail',
+                    'email@email.com',
+                    'email',
+                    '[a-z][A-Z]@[a-z][A-Z].[a-z][A-Z]',
+                    error.email
+                  )
+                }
+                <DivInput>
+                  {
+                    renderForm(
+                      form,
+                      setForm,
+                      'password',
+                      'Senha',
+                      'Mínimo 6 caracteres',
+                      showPass?'text':'password',
+                      '',error.password
+                    )
+                  }
+                  <MyIconButton>
+                    {
+                      showPass?
+                        (<VisibilityIcon onClick={()=>setShowPass(!showPass)}/>)
+                        :
+                        (<VisibilityOffIcon onClick={()=>setShowPass(!showPass)}/>)
+                    }
+                  </MyIconButton>
+                </DivInput>
+              <Button>Entrar</Button>
+            </MyForm>
+            <TextClick onClick={toSignUp}>Não possui cadastro? Clique aqui</TextClick>
+          </MyAllContent>
+        </StylesProvider>
       </Smartphone>
     </All>
   )
