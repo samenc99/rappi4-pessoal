@@ -1,7 +1,7 @@
 import {validateEmail} from "../../functions/validateEmail";
 import signupEndpoint from "../../controller/user/signupEndpoint";
 
-export default async function signupBusinnes(form) {
+export default async function signupBusiness(form) {
   if(!validateEmail(form.email)){
     throw new Error('E-mail inválido')
   }

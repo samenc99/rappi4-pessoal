@@ -1,7 +1,7 @@
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import SignIn from "../pages/Sign/SignIn";
-import SignUp from "../pages/Sign/SignUp";
-import Address from "../pages/Sign/Address";
+import SignIn from "../pages/Sign/in/SignIn";
+import SignUp from "../pages/Sign/up/SignUp";
+import Address from "../pages/Sign/address/Address";
 import Feed from "../pages/Feed/Feed";
 
 export default function Routes(){

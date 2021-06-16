@@ -1,30 +1,21 @@
-import All, {Smartphone} from "../../styleAll/styledAll";
-import {Button, DivInput, Logo, MyAlert, MyAllContent, MyForm, MyIconButton, MyInput, Text} from "./styled";
-import logoRappi from '../../assets/logo-rappi.svg'
+import All, {Smartphone} from "../../../styleAll/styledAll";
+import {Button, DivInput, Logo, MyAlert, MyAllContent, MyForm, MyIconButton, MyInput, Text} from "../styled";
+import logoRappi from '../../../assets/logo-rappi.svg'
 import {useState} from "react";
-import useForm from "../../hooks/useForm";
+import useForm from "../../../hooks/useForm";
 import {StylesProvider} from "@material-ui/core/styles";
-import cpfMask from "../../functions/cpfMask";
+import cpfMask from "../../../functions/cpfMask";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
-import {validateEmail} from "../../functions/validateEmail";
 import {AlertTitle} from "@material-ui/lab";
-import useCoordinator from "../../hooks/useCoordinator";
-import {renderForm} from "./renderForm";
-import signupEndpoint from "../../controller/user/signupEndpoint";
-import {MyCircularProgress} from "../components/MyCircularProgress";
-import signinBusinnes from "../../Business/user/signinBusinnes";
-import signupBusinnes from "../../Business/user/signupBusinnes";
-import myNormalize from "../../functions/myNormalize";
+import useCoordinator from "../../../hooks/useCoordinator";
+import {renderForm} from "../renderForm";
+import {MyCircularProgress} from "../../components/MyCircularProgress";
+import signupBusiness from "../../../Business/user/signupBusiness";
+import switchError from "./switchError";
 
 const initialForm = {
   name:'', email:'', cpf:'', password:'', rPassword:''
-}
-
-const alertKey = {
-  'senha precisa de pelo menos 6 caracteres' : {email:false, password: true, rPassword: false},
-  'e-mail invalido' : {email:true, password: false, rPassword: false},
-  'senhas nao conferem' : {email:false, password: false, rPassword: true}
 }
 
 export default function SignUp(){
@@ -46,11 +37,11 @@ export default function SignUp(){
     setAlert(<></>)
     setLoading(<MyCircularProgress/>)
     try{
-      await signupBusinnes(form)
+      await signupBusiness(form)
       toAddress()
     }catch (err){
       setLoading(<></>)
-      setError(alertKey[myNormalize(err.message)])
+      setError(switchError(err))
       setAlert(
         <MyAlert severity={'error'}>,
           <AlertTitle>Erro</AlertTitle>
@@ -102,7 +93,6 @@ export default function SignUp(){
                   placeholder={'000.000.000-00'}
                   required
                 />
-
                 <DivInput>
                   {
                     renderForm(
@@ -160,7 +150,6 @@ export default function SignUp(){
                         )}
                   </MyIconButton>
                 </DivInput>
-
               <Button>Criar</Button>
             </MyForm>
           </MyAllContent>

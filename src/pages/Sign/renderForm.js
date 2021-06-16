@@ -1,6 +1,10 @@
 import {MyInput} from "./styled";
 
-export function renderForm(form, setForm, name, label, placeholder=label, type='text', regex, error){
+export function renderForm(form, setForm, name, label,
+                           placeholder=label, type='text',
+                           regex, error=false, required=true,
+                           disabled = false
+){
   if(placeholder.length===0)placeholder=label
   return <MyInput
     key={name}
@@ -13,6 +17,7 @@ export function renderForm(form, setForm, name, label, placeholder=label, type='
     placeholder={placeholder}
     pattern={regex}
     error={error}
-    required
+    required={required}
+    disabled={disabled}
   />
 }

@@ -4,6 +4,7 @@ import {loginURL} from "../endpoints";
 export default async function signinEndpoint(form){
     try{
         const res = await api.post(loginURL, form)
+        console.log({res})
         localStorage.setItem('token', res.data.token)
     }
     catch (err){

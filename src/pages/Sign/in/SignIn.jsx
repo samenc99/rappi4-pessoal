@@ -1,8 +1,8 @@
 import {useState} from 'react'
-import useForm from "../../hooks/useForm";
-import All, {Smartphone} from '../../styleAll/styledAll'
-import useCoordinator from "../../hooks/useCoordinator";
-import useValidation from "../../hooks/useValidation";
+import useForm from "../../../hooks/useForm";
+import All, {Smartphone} from '../../../styleAll/styledAll'
+import useCoordinator from "../../../hooks/useCoordinator";
+import useValidation from "../../../hooks/useValidation";
 import {
   Button,
   DivInput,
@@ -13,25 +13,19 @@ import {
   MyIconButton,
   Text,
   TextClick
-} from "./styled";
-import logoRappi from '../../assets/logo-rappi.svg'
+} from "../styled";
+import logoRappi from '../../../assets/logo-rappi.svg'
 import {StylesProvider} from "@material-ui/core/styles";
 import { AlertTitle } from '@material-ui/lab';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
-import {renderForm} from "./renderForm";
-import signinBusinnes from "../../Business/user/signinBusinnes";
-import myNormalize from "../../functions/myNormalize";
-import {MyCircularProgress} from "../components/MyCircularProgress";
+import {renderForm} from "../renderForm";
+import signinBusiness from "../../../Business/user/signinBusiness";
+import {MyCircularProgress} from "../../components/MyCircularProgress";
+import switchError from "./switchError";
 
 //para o formulário
 const initialForm = {email:'', password:''}
-
-const alertKey = {
-  'usuario nao encontrado' : {email:true, password: false},
-  'senha incorreta' : {email:false, password: true},
-  'e-mail invalido' : {email:true, password: false}
-}
 
 export default function SignIn(){
   //validação
@@ -50,12 +44,12 @@ export default function SignIn(){
     setAlert(<></>)
     setLoading(<MyCircularProgress/>)
     try{
-      await signinBusinnes(form)
+      await signinBusiness(form)
       toFeed()
     }
     catch (err){
       setLoading(<></>)
-      setError(alertKey[myNormalize(err.message)])
+      setError(switchError(err))
       setAlert(
         <MyAlert severity={'error'}>
           <AlertTitle>Erro</AlertTitle>

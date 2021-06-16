@@ -52,7 +52,7 @@ export const DivBack = styled.div`
 `
 
 export const MyArrowBack = styled(ArrowBackIosIcon)`
-  
+  cursor: pointer;
 `
 
 //-------------------------Formulário
