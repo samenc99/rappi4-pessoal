@@ -47,8 +47,10 @@ export const DivBack = styled.div`
   display: flex;
   align-items: center;
   padding-left: 16px;
-  box-shadow: 0 0.5px 0 0 rgba(0, 0, 0, 0.25);
+  //box-shadow: 0 0.5px 0 0 rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
   margin-bottom: 16px;
+  //background-color: red;
 `
 
 export const MyArrowBack = styled(ArrowBackIosIcon)`
