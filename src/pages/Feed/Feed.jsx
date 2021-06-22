@@ -4,6 +4,7 @@ import Search from "./Search/Search";
 import {useEffect, useState} from "react";
 import getRestaurantBusiness from "../../Business/restaurant/getRestaurantBusiness";
 import CardFeed from "../components/CardFeed/CardFeed";
+import Category from "./Category/Category";
 
 export default function Feed(props) {
   const [restaurants, setRestaurants] = useState([])
@@ -27,7 +28,7 @@ export default function Feed(props) {
     getRestaurants()
   },[])
 
-  const render = ()=> restaurantsRendered.map(r=>{
+  const renderRestaurants = ()=> restaurantsRendered.map(r=>{
     return(
       <CardFeed restaurant={r} />
     )
@@ -45,7 +46,8 @@ export default function Feed(props) {
             onClick={()=>onClickBack(true)}
             back={back}
           />
-          {render()}
+          <Category restaurants={restaurants} setRestaurantsRendered={setRestaurantsRendered}/>
+          {renderRestaurants()}
         </AllContent>
       </Smartphone>
     </All>
