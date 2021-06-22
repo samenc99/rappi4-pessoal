@@ -2,7 +2,7 @@ import Header from '../components/Header/Header'
 import All, {AllContent, Smartphone} from "../../styleAll/styledAll";
 import Search from "./Search/Search";
 import {useEffect, useState} from "react";
-import getRestaurantBusiness from "../../Business/restaurant/getRestaurantBusiness";
+import getRestaurantsBusiness from "../../Business/restaurant/getRestaurantsBusiness";
 import CardFeed from "../components/CardFeed/CardFeed";
 import Category from "./Category/Category";
 
@@ -13,7 +13,7 @@ export default function Feed(props) {
 
   const getRestaurants = async()=>{
     try{
-      const res = await getRestaurantBusiness()
+      const res = await getRestaurantsBusiness()
       setRestaurants(res)
       setRestaurantsRendered(res)
     }catch (err){

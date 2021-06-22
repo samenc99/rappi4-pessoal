@@ -1,14 +1,9 @@
 import getRestaurantEndpoint from "../../controller/restaurant/getRestaurantEndpoint";
 
-export default async function () {
+export default async function getRestaurantBusiness(id) {
   try{
-    const res = await getRestaurantEndpoint()
-    if('restaurants' in res?.data){
-      if(res.data.restaurants.length>0){
-        return res.data.restaurants
-      }
-    }
-    throw new Error('Não há restaurantes.')
+    const res = await getRestaurantEndpoint(id)
+    return res.data.restaurant
   }catch (err){
     throw new Error(err.message)
   }
