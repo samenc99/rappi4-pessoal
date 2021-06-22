@@ -1,8 +1,18 @@
+import {Container, Img, Info, Name, Shipping} from "./styled";
+
 
 export default function CardFeed({restaurant}){
+  console.log({restaurant})
   return(
-    <div>
-      <p>{restaurant.name}</p>
-    </div>
+    <Container>
+      <Img src={restaurant.logoUrl} alt={'logo-restaurante'}/>
+      <Info>
+        <Name>{restaurant.name}</Name>
+        <Shipping>
+          <p>{restaurant.deliveryTime} min</p>
+          <p>Frete R${restaurant.shipping}</p>
+        </Shipping>
+      </Info>
+    </Container>
   )
 }

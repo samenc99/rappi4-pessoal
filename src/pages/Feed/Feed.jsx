@@ -15,6 +15,7 @@ export default function Feed(props) {
     try{
       const res = await getRestaurantBusiness()
       setRestaurants(res)
+      setRestaurantsRendered(res)
     }catch (err){
       console.log(err.message)
     }
@@ -28,11 +29,9 @@ export default function Feed(props) {
     getRestaurants()
   },[])
 
-  const renderRestaurants = ()=> restaurantsRendered.map(r=>{
-    return(
-      <CardFeed restaurant={r} />
-    )
-  })
+  const renderRestaurants = ()=> restaurantsRendered.map(
+    r=><CardFeed restaurant={r}/>
+  )
 
 
   return(

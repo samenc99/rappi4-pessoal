@@ -17,7 +17,7 @@ export default function Routes(){
         <Route exat path={'/address'}>
           <Address />
         </Route>
-        <Route exat path={'/'}>
+        <Route exat path={'/feed'}>
           <Feed/>
         </Route>
         <Route>

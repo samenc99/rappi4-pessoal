@@ -3,7 +3,8 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 export const Content = styled.header`
   width: 100%;
-  height: 44px;
+  min-height: 44px;
+  max-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;

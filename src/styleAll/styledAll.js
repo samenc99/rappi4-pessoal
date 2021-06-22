@@ -25,4 +25,6 @@ export const AllContent = styled.div`
   align-items: center;
   box-sizing: border-box;
   padding: 0 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
 `
