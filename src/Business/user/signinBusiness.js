@@ -5,5 +5,10 @@ export default async function signinBusiness(form){
   if(!validateEmail(form.email)){
     throw new Error('E-mail inválido')
   }
-  await signinEndpoint(form)
+  try{
+    const res = await signinEndpoint(form)
+    window.localStorage.setItem('token', res.data.token)
+  }catch (err){
+    throw new Error(err.message)
+  }
 }

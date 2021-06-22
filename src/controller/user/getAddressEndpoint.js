@@ -3,14 +3,8 @@ import {headers, profileAddressURL} from "../endpoints";
 
 export default async function getAddressEndpoint() {
   try{
-    const res = await api.get(profileAddressURL, headers())
-    if('address' in res.data){
-      if(res.data.address.neighbourhood.length>0){
-        return res.data.address
-      }
-    }
-    throw new Error('Address vazio')
+    return await api.get(profileAddressURL, headers())
   }catch (err){
-    throw new Error(err.message || err.response.data.message)
+    throw new Error(err.response.data.message)
   }
 }

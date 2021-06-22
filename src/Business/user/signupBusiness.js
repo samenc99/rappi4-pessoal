@@ -12,5 +12,11 @@ export default async function signupBusiness(form) {
     throw new Error('Senhas não conferem')
   }
   delete form.rPassword
-  await signupEndpoint(form)
+  try{
+    const res = await signupEndpoint(form)
+    window.localStorage.setItem('token', res.data.token)
+  }catch (err){
+    throw new Error(err.message)
+  }
+
 }

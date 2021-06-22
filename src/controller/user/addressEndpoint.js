@@ -3,9 +3,7 @@ import {addressURL, headers} from "../endpoints";
 
 export default async function addressEndpoint(form) {
   try{
-    console.log(headers())
-    const res = await api.put(addressURL, form, headers())
-    window.localStorage.setItem('token', res.data.token)
+    return await api.put(addressURL, form, headers())
   }catch (err){
     throw new Error(err.response.data.message)
   }
