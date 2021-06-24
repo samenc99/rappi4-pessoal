@@ -1,13 +1,18 @@
 import {Container, Img, Rose, Grey, Info} from "./styled";
 
-export default function CardRestaurant({restaurant}){
+export default function CardRestaurant({
+  restaurant:{
+    logoUrl, name, deliveryTime, shipping, address, category
+  }
+}){
   return(
     <Container>
-      <Img src={restaurant.logoUrl}/>
+      <Img src={logoUrl}/>
       <Info>
-        <Rose>{restaurant.name}</Rose>
-        <Grey>{restaurant.deliveryTime} min Frete R${restaurant.shipping.toFixed(2)}</Grey>
-        <Grey>{restaurant.address}</Grey>
+        <Rose>{name}</Rose>
+        <Grey>{category}</Grey>
+        <Grey>{deliveryTime} min Frete R${shipping.toFixed(2)}</Grey>
+        <Grey>{address}</Grey>
       </Info>
     </Container>
   )

@@ -1,8 +1,11 @@
 import Routes from './Routes/Routes';
+import GlobalState from "./GlobalState/GlobalState";
 
 function App() {
   return (
-    <Routes />
+    <GlobalState>
+      <Routes />
+    </GlobalState>
   );
 }
 

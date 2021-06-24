@@ -2,8 +2,10 @@ import styled from "styled-components";
 
 export const Container = styled.article`
   width: 100%;
-  height: 268px;
-  margin-top: 8px;
+  min-height: 268px;
+  max-height: 268px;
+  margin-top: 17px;
+  margin-bottom: 16px;
   border-radius: 8px;
   overflow: hidden;
 `

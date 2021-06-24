@@ -5,11 +5,16 @@ import {useEffect, useState} from "react";
 import getRestaurantsBusiness from "../../Business/restaurant/getRestaurantsBusiness";
 import CardFeed from "./CardFeed/CardFeed";
 import Category from "./Category/Category";
+import useValidation from "../../hooks/useValidation";
+import useCoordinator from "../../hooks/useCoordinator";
 
 export default function Feed(props) {
+  useValidation()
+
   const [restaurants, setRestaurants] = useState([])
   const [restaurantsRendered, setRestaurantsRendered] = useState([]);
   const [back, setBack] = useState(false);
+  const {toRestaurant} = useCoordinator()
 
   const getRestaurants = async()=>{
     try{
@@ -30,7 +35,7 @@ export default function Feed(props) {
   },[])
 
   const renderRestaurants = ()=> restaurantsRendered.map(
-    r=><CardFeed restaurant={r}/>
+    r=><CardFeed restaurant={r} onClick={()=>toRestaurant(r.id)}/>
   )
 
 
