@@ -3,7 +3,7 @@ import All, {AllContent, Smartphone} from "../../styleAll/styledAll";
 import Search from "./Search/Search";
 import {useEffect, useState} from "react";
 import getRestaurantsBusiness from "../../Business/restaurant/getRestaurantsBusiness";
-import CardFeed from "../components/CardFeed/CardFeed";
+import CardFeed from "./CardFeed/CardFeed";
 import Category from "./Category/Category";
 
 export default function Feed(props) {
