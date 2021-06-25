@@ -1,11 +1,12 @@
 import {Container, Img, Info, Div, Name, Description, Button, Amount} from "./styled";
 import {useContext, useEffect, useState} from "react";
 import GlobalStateContext from "../../../../GlobalState/GlobalStateContext";
+import AddCart from "./AddCart/AddCart";
 
 export default function CardFood({product}){
   const {cart, addCart, removeCart} = useContext(GlobalStateContext)
   const [added, setAdded] = useState(false);
-  const [amount, setAmount] = useState(0);
+  const [renderAddCart, setRendedrAddCart] = useState(false)
 
   useEffect(()=>{
     for(let p of cart.products){
@@ -49,9 +50,14 @@ export default function CardFood({product}){
             <Button added={added} onClick={onClickRemove}>remover</Button>
           </>
           :
-          <Button added={added} onClick={onClickAdd}>adicionar</Button>
+          <Button added={added} onClick={()=>setRendedrAddCart(true)}>adicionar</Button>
       }
-
+      {
+        renderAddCart?
+          <AddCart />
+          :
+          <></>
+      }
     </Container>
   )
 }
