@@ -1,22 +1,57 @@
-import {Container, Img, Info, Div, Name, Description} from "./styled";
+import {Container, Img, Info, Div, Name, Description, Button, Amount} from "./styled";
+import {useContext, useEffect, useState} from "react";
+import GlobalStateContext from "../../../../GlobalState/GlobalStateContext";
 
-export default function CardFood({
-  product: {
-   photoUrl, name, description, price
+export default function CardFood({product}){
+  const {cart, addCart, removeCart} = useContext(GlobalStateContext)
+  const [added, setAdded] = useState(false);
+  const [amount, setAmount] = useState(0);
+
+  useEffect(()=>{
+    for(let p of cart.products){
+      if(p.id===product.id){
+        setAdded(true)
+        break
+      }
+    }
+  },[])
+
+  const onClickAdd = ()=>{
+    try{
+      addCart(1, product)
+      setAdded(true)
+    }catch (err){
+      alert(err.message)
+    }
   }
-}){
+
+  const onClickRemove = ()=>{
+    setAdded(false)
+    removeCart(product)
+  }
+
   return(
     <Container>
-      <Img src={photoUrl}/>
+      <Img src={product.photoUrl}/>
       <Info>
         <Div>
-          <Name>{name}</Name>
+          <Name>{product.name}</Name>
         </Div>
-        <Description>{description}</Description>
+        <Description>{product.description}</Description>
         <Div>
-          <p>R${price.toFixed(2)}</p>
+          <p>R${product.price.toFixed(2)}</p>
         </Div>
       </Info>
+      {
+        added?
+          <>
+            <Amount>{product.amount}</Amount>
+            <Button added={added} onClick={onClickRemove}>remover</Button>
+          </>
+          :
+          <Button added={added} onClick={onClickAdd}>adicionar</Button>
+      }
+
     </Container>
   )
 }

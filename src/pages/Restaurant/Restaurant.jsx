@@ -38,7 +38,7 @@ export default function Restaurant() {
       console.log(e.message)
     }
   },[])
-  console.log({restaurant})
+
   return(
     <All>
       <Smartphone>
